@@ -1,102 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import EntertainmentCardSlider from "../Components/Entertainment/EntertainmentCard.Component";
 import HeroCarousel from "../Components/HeroCarousel/HeroCarousel.Component";
 import PosterSlider from "../Components/PosterSlider/PosterSlider.Component";
 
 function HomePage() {
-  const recommendedMovies = [
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:oi-discovery-catalog@@icons@@heart_202006300400.png,ox-24,oy-617,ow-29:ote-ODQlICAxayB2b3Rlcw%3D%3D,ots-29,otc-FFFFFF,oy-612,ox-70/et00056556-zbbswydmwv-portrait.jpg",
-      title: "Fast and Furious 9",
-      subtitle: "Action / Adventure / Crime / Thriller",
-    },
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:oi-discovery-catalog@@icons@@like_202006280402.png,ox-24,oy-617,ow-29:ote-ODNrIGxpa2Vz,ots-29,otc-FFFFFF,oy-612,ox-70/et00122566-ukjdenbmlg-portrait.jpg",
-      title: "Fast and Furious 9",
-      subtitle: "Action / Adventure / Crime / Thriller",
-    },
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:oi-discovery-catalog@@icons@@heart_202006300400.png,ox-24,oy-617,ow-29:ote-ODQlICAzayB2b3Rlcw%3D%3D,ots-29,otc-FFFFFF,oy-612,ox-70/et00099872-bdsuwgdrml-portrait.jpg",
-      title: "Fast and Furious 9",
-      subtitle: "Action / Adventure / Crime / Thriller",
-    },
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:oi-discovery-catalog@@icons@@premiere-icon.png,ox-322,oy-20/et00312484-ehedpyzcmm-portrait.jpg",
-      title: "Fast and Furious 9",
-      subtitle: "Action / Adventure / Crime / Thriller",
-    },
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:oi-discovery-catalog@@icons@@premiere-icon.png,ox-322,oy-20/et00310648-uwreepnzec-portrait.jpg",
-      title: "Fast and Furious 9",
-      subtitle: "Action / Adventure / Crime / Thriller",
-    },
-  ];
+  const [recommendedMovies, setRecommendedMovies] = useState([]);
+  const [premierMovies, setPremierMovies] = useState([]);
+  const [onlineStreamEvents, setOnlineStreamEvents] = useState([]);
 
-  const premierMovies = [
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:oi-discovery-catalog@@icons@@premiere-icon.png,ox-322,oy-20/et00312484-ehedpyzcmm-portrait.jpg",
-      title: "The Balkan Line",
-      subtitle: "English",
-    },
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:oi-discovery-catalog@@icons@@premiere-icon.png,ox-322,oy-20/et00137316-unmwlqfqvd-portrait.jpg",
-      title: "The Nest",
-      subtitle: "English",
-    },
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:oi-discovery-catalog@@icons@@premiere-icon.png,ox-322,oy-20/et00310648-uwreepnzec-portrait.jpg",
-      title: "Resistance",
-      subtitle: "English",
-    },
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:oi-discovery-catalog@@icons@@premiere-icon.png,ox-322,oy-20/et00137312-qszmhzktyk-portrait.jpg",
-      title: "The Secrets We Keep",
-      subtitle: "English",
-    },
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:oi-discovery-catalog@@icons@@heart_202006300400.png,ox-24,oy-617,ow-29:ote-ODQlICAxayB2b3Rlcw%3D%3D,ots-29,otc-FFFFFF,oy-612,ox-70/et00056556-zbbswydmwv-portrait.jpg",
-      title: "Fast and Furious 9",
-      subtitle: "English",
-    },
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:oi-discovery-catalog@@icons@@heart_202006300400.png,ox-24,oy-617,ow-29:ote-ODQlICAxayB2b3Rlcw%3D%3D,ots-29,otc-FFFFFF,oy-612,ox-70/et00056556-zbbswydmwv-portrait.jpg",
-      title: "The Nest",
-      subtitle: "English",
-    },
-  ];
+  useEffect(() => {
+    const requestPopularMovies = async () => {
+      const getPopularMovies = await axios.get("/movie/popular");
+      setRecommendedMovies(getPopularMovies.data.results);
+    };
 
-  const onlineStreamEvents = [
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:oi-discovery-catalog@@icons@@premiere-icon.png,ox-322,oy-20/et00312484-ehedpyzcmm-portrait.jpg",
-      title: "The Nest",
-      subtitle: "English",
-    },
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:oi-discovery-catalog@@icons@@premiere-icon.png,ox-322,oy-20/et00137316-unmwlqfqvd-portrait.jpg",
-      title: "The Nest",
-      subtitle: "English",
-    },
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:oi-discovery-catalog@@icons@@premiere-icon.png,ox-322,oy-20/et00310648-uwreepnzec-portrait.jpg",
-      title: "The Nest",
-      subtitle: "English",
-    },
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:oi-discovery-catalog@@icons@@premiere-icon.png,ox-322,oy-20/et00137312-qszmhzktyk-portrait.jpg",
-      title: "The Nest",
-      subtitle: "English",
-    },
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:oi-discovery-catalog@@icons@@heart_202006300400.png,ox-24,oy-617,ow-29:ote-ODQlICAxayB2b3Rlcw%3D%3D,ots-29,otc-FFFFFF,oy-612,ox-70/et00056556-zbbswydmwv-portrait.jpg",
-      title: "The Nest",
-      subtitle: "English",
-    },
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:oi-discovery-catalog@@icons@@heart_202006300400.png,ox-24,oy-617,ow-29:ote-ODQlICAxayB2b3Rlcw%3D%3D,ots-29,otc-FFFFFF,oy-612,ox-70/et00056556-zbbswydmwv-portrait.jpg",
-      title: "The Nest",
-      subtitle: "English",
-    },
-  ];
+    requestPopularMovies();
+  }, []);
+
+  useEffect(() => {
+    const requestTopRatedMovies = async () => {
+      const getTopRatedMovies = await axios.get("/movie/top_rated");
+      setPremierMovies(getTopRatedMovies.data.results);
+    };
+
+    requestTopRatedMovies();
+  }, []);
+
+  useEffect(() => {
+    const requestUpcomingMovies = async () => {
+      const getUpcomingMovies = await axios.get("/movie/upcoming");
+      setOnlineStreamEvents(getUpcomingMovies.data.results);
+    };
+
+    requestUpcomingMovies();
+  }, []);
 
   return (
     <>
@@ -110,7 +48,7 @@ function HomePage() {
       <div className="container mx-auto lg:px-24 md:px-12 my-8 ">
         <PosterSlider
           title="Recommend Movies"
-          subtitle="list of Recommended Movies"
+          subtitle="List of Recommended Movies"
           posters={recommendedMovies}
           isDark={false}
         />

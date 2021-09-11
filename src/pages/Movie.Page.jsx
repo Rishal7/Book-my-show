@@ -1,11 +1,53 @@
-import React from "react";
-import MovieHero from "../Components/MovieHero/MovieHero.Component";
+import React, { useContext, useEffect, useState } from "react";
 import Slider from "react-slick";
+import { useParams } from "react-router";
+import axios from "axios";
+
+// Icons
 import { FaCcVisa, FaCcApplePay } from "react-icons/fa";
+
+// Components
+import MovieHero from "../Components/MovieHero/MovieHero.Component";
 import Cast from "../Components/Cast/Cast.Component";
 import PosterSlider from "../Components/PosterSlider/PosterSlider.Component";
 
+// Context
+import { MovieContext } from "../Context/Movie.Context";
+
 const MoviePage = () => {
+  const { movie } = useContext(MovieContext);
+  const { id } = useParams();
+
+  const [cast, setCast] = useState([]);
+  const [similarMovies, setSimilarMovies] = useState([]);
+  const [recommendedMovies, setRecommendedMovies] = useState([]);
+
+  useEffect(() => {
+    const requestCast = async () => {
+      const getCast = await axios.get(`/movie/${id}/credits`);
+      setCast(getCast.data.cast);
+    };
+    requestCast();
+  }, [id]);
+
+  useEffect(() => {
+    const requestSimilarMovies = async () => {
+      const getSimilarMovies = await axios.get(`/movie/${id}/similar`);
+      setSimilarMovies(getSimilarMovies.data.results);
+    };
+    requestSimilarMovies();
+  }, [id]);
+
+  useEffect(() => {
+    const requestRecommendedMovies = async () => {
+      const getRecommendedMovies = await axios.get(
+        `/movie/${id}/recommendations`
+      );
+      setRecommendedMovies(getRecommendedMovies.data.results);
+    };
+    requestRecommendedMovies();
+  }, [id]);
+
   const settingsCast = {
     infinite: false,
     speed: 500,
@@ -72,96 +114,13 @@ const MoviePage = () => {
     ],
   };
 
-  const cast = [
-    {
-      profile_path:
-        "https://media.vanityfair.com/photos/5f6e0d388f3d1388648ddf94/4:3/w_1779,h_1334,c_limit/vin.jpg",
-      original_name: "Vin Diesel",
-      character: "Dominic Toretto",
-    },
-    {
-      profile_path:
-        "https://in.bmscdn.com/iedb/artist/images/website/poster/large/john-cena-1021-24-03-2017-15-43-30.jpg",
-      original_name: "John Cena",
-      character: "Jakob Toretto",
-    },
-    {
-      profile_path:
-        "https://media.vanityfair.com/photos/5f6e0d388f3d1388648ddf94/4:3/w_1779,h_1334,c_limit/vin.jpg",
-      original_name: "Vin Diesel",
-      character: "Dominic Toretto",
-    },
-    {
-      profile_path:
-        "https://media.vanityfair.com/photos/5f6e0d388f3d1388648ddf94/4:3/w_1779,h_1334,c_limit/vin.jpg",
-      original_name: "Vin Diesel",
-      character: "Dominic Toretto",
-    },
-    {
-      profile_path:
-        "https://media.vanityfair.com/photos/5f6e0d388f3d1388648ddf94/4:3/w_1779,h_1334,c_limit/vin.jpg",
-      original_name: "Vin Diesel",
-      character: "Dominic Toretto",
-    },
-    {
-      profile_path:
-        "https://media.vanityfair.com/photos/5f6e0d388f3d1388648ddf94/4:3/w_1779,h_1334,c_limit/vin.jpg",
-      original_name: "Vin Diesel",
-      character: "Dominic Toretto",
-    },
-    {
-      profile_path:
-        "https://media.vanityfair.com/photos/5f6e0d388f3d1388648ddf94/4:3/w_1779,h_1334,c_limit/vin.jpg",
-      original_name: "Vin Diesel",
-      character: "Dominic Toretto",
-    },
-  ];
-
-  const similarMovies = [
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:oi-discovery-catalog@@icons@@heart_202006300400.png,ox-24,oy-617,ow-29:ote-ODQlICAxayB2b3Rlcw%3D%3D,ots-29,otc-FFFFFF,oy-612,ox-70/et00056556-zbbswydmwv-portrait.jpg",
-      title: "Fast and Furious 9",
-      subtitle: "Action / Adventure / Crime / Thriller",
-    },
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:oi-discovery-catalog@@icons@@heart_202006300400.png,ox-24,oy-617,ow-29:ote-ODQlICAxayB2b3Rlcw%3D%3D,ots-29,otc-FFFFFF,oy-612,ox-70/et00056556-zbbswydmwv-portrait.jpg",
-      title: "Fast and Furious 9",
-      subtitle: "Action / Adventure / Crime / Thriller",
-    },
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:oi-discovery-catalog@@icons@@heart_202006300400.png,ox-24,oy-617,ow-29:ote-ODQlICAxayB2b3Rlcw%3D%3D,ots-29,otc-FFFFFF,oy-612,ox-70/et00056556-zbbswydmwv-portrait.jpg",
-      title: "Fast and Furious 9",
-      subtitle: "Action / Adventure / Crime / Thriller",
-    },
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:oi-discovery-catalog@@icons@@heart_202006300400.png,ox-24,oy-617,ow-29:ote-ODQlICAxayB2b3Rlcw%3D%3D,ots-29,otc-FFFFFF,oy-612,ox-70/et00056556-zbbswydmwv-portrait.jpg",
-      title: "Fast and Furious 9",
-      subtitle: "Action / Adventure / Crime / Thriller",
-    },
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:oi-discovery-catalog@@icons@@heart_202006300400.png,ox-24,oy-617,ow-29:ote-ODQlICAxayB2b3Rlcw%3D%3D,ots-29,otc-FFFFFF,oy-612,ox-70/et00056556-zbbswydmwv-portrait.jpg",
-      title: "Fast and Furious 9",
-      subtitle: "Action / Adventure / Crime / Thriller",
-    },
-    {
-      src: "https://in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:oi-discovery-catalog@@icons@@heart_202006300400.png,ox-24,oy-617,ow-29:ote-ODQlICAxayB2b3Rlcw%3D%3D,ots-29,otc-FFFFFF,oy-612,ox-70/et00056556-zbbswydmwv-portrait.jpg",
-      title: "Fast and Furious 9",
-      subtitle: "Action / Adventure / Crime / Thriller",
-    },
-  ];
-
   return (
     <>
       <MovieHero />
       <div className="my-12 container px-4 lg:ml-20 lg:w-2/3">
         <div className="flex flex-col items-start gap-3">
           <h1 className="text-gray-800 font-bold text-2xl">About the movie</h1>
-          <p>
-            Dom`s peaceful life with his wife Letty and son Brian is shattered
-            when Dom`s past catches up to him. The gang is up against the most
-            skilled assassin and high-performance driver - his little brother
-            Jakob.
-          </p>
+          <p>{movie.overview}</p>
         </div>
 
         <div className="my-8 ">
@@ -240,7 +199,7 @@ const MoviePage = () => {
           <PosterSlider
             config={settings}
             title="BMS XCLUSIVE"
-            posters={similarMovies}
+            posters={recommendedMovies}
             isDark={false}
           />
         </div>

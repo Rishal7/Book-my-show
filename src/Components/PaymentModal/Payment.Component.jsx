@@ -89,7 +89,7 @@ export default function PaymentModal({ isOpen, setIsOpen, price }) {
                     type="button"
                     className="mt-3 w-full inline-flex justify-center px-4 py-2 text-sm font-medium text-red-700 bg-red-100 border border-transparent
                      rounded-md "
-                    onClick={launchRazorPay}
+                    onClick={closeModal}
                   >
                     Cancel Payment
                   </button>
